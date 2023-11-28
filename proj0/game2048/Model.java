@@ -113,6 +113,60 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        board.setViewingPerspective(side);
+        int size = board.size();
+        for(int col = 0; col < size; col ++)
+        {
+            for(int row = size - 1; row >= 0; row --)
+            {
+                Tile t = board.tile(col, row);
+                if(t != null)
+                {
+                    int nextPos = 3;
+                    while(nextPos >= row)
+                    {
+                        if(board.tile(col, nextPos) == null)
+                            break;
+                        nextPos --;
+                    }
+                    if(nextPos >= row)
+                    {
+                        board.move(col, nextPos, t);
+                        changed = true;
+                    }
+                }
+            }
+
+            for(int row = 3; row >= 0; row --)
+            {
+                Tile t = board.tile(col, row);
+                int nextLine = row - 1;
+                if(nextLine < 0)
+                    break;
+                Tile next = board.tile(col, nextLine);
+                if(t == null || next == null)
+                    break;
+                int nextValue = next.value();
+                if(nextValue == t.value())
+                {
+                    board.move(col, row, next);
+                    score += 2 * t.value();
+                    for(int j = nextLine - 1; j >= 0; j --)
+                    {
+                        Tile tile = board.tile(col, j);
+                        if(tile == null)
+                            break;
+                        if(j < size)
+                            board.move(col, j + 1, tile);
+                    }
+                    changed = true;
+                }
+            }
+        }
+
+
+        board.setViewingPerspective(Side.NORTH);
+
 
         checkGameOver();
         if (changed) {
@@ -138,6 +192,16 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        int size = b.size();
+        for(int i = 0; i < size; i ++)
+        {
+            for(int j = 0; j < size; j ++)
+            {
+                //exist empty space
+                if(b.tile(i, j) == null)
+                    return true;
+            }
+        }
         return false;
     }
 
@@ -148,6 +212,17 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        //judge if there exist 2048
+        int size = b.size();
+        for(int i = 0; i < size; i ++)
+        {
+            for(int j = 0; j < size; j ++)
+            {
+                Tile t = b.tile(i, j);
+                if(t != null && t.value() == MAX_PIECE)
+                    return true;
+            }
+        }
         return false;
     }
 
@@ -159,6 +234,29 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        if(emptySpaceExists(b))
+            return true;
+        int size = b.size();
+        int dx[] = {0, 1, 0, -1};
+        int dy[] = {1, 0, -1, 0};
+        for(int col = 0; col < size; col ++)
+        {
+            for(int row = 0; row < size; row ++)
+            {
+                for(int move = 0; move < 4; move ++)
+                {
+                    int val = b.tile(col, row).value();
+                    int newcol = col + dx[move];
+                    int newrow = row + dy[move];
+                    if(newcol < size && newrow < size && newcol >= 0 && newrow >= 0)
+                    {
+                        Tile t = b.tile(newcol, newrow);
+                        if(val == t.value())
+                            return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
