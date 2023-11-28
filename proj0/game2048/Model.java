@@ -118,6 +118,7 @@ public class Model extends Observable {
         int size = board.size();
         for(int col = 0; col < size; col ++)
         {
+            // move to the top if there exist empty space without merging
             for(int row = size - 1; row >= 0; row --)
             {
                 Tile t = board.tile(col, row);
@@ -138,6 +139,7 @@ public class Model extends Observable {
                 }
             }
 
+            // merge the two tile that have the same value
             for(int row = 3; row >= 0; row --)
             {
                 Tile t = board.tile(col, row);
