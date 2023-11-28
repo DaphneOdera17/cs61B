@@ -113,7 +113,7 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
-<<<<<<< HEAD
+
         board.setViewingPerspective(side);
         int size = board.size();
         for(int col = 0; col < size; col ++)
@@ -168,8 +168,7 @@ public class Model extends Observable {
 
         board.setViewingPerspective(Side.NORTH);
 
-=======
->>>>>>> origin/main
+
 
         checkGameOver();
         if (changed) {
@@ -195,7 +194,7 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
-<<<<<<< HEAD
+
         int size = b.size();
         for(int i = 0; i < size; i ++)
         {
@@ -206,8 +205,7 @@ public class Model extends Observable {
                     return true;
             }
         }
-=======
->>>>>>> origin/main
+
         return false;
     }
 
@@ -218,7 +216,7 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
-<<<<<<< HEAD
+
         //judge if there exist 2048
         int size = b.size();
         for(int i = 0; i < size; i ++)
@@ -230,8 +228,7 @@ public class Model extends Observable {
                     return true;
             }
         }
-=======
->>>>>>> origin/main
+
         return false;
     }
 
@@ -243,7 +240,7 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
-<<<<<<< HEAD
+
         if(emptySpaceExists(b))
             return true;
         int size = b.size();
@@ -267,8 +264,7 @@ public class Model extends Observable {
                 }
             }
         }
-=======
->>>>>>> origin/main
+
         return false;
     }
 
